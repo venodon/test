@@ -10,8 +10,8 @@ class LoyaltyPointsReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $balance;
-    private $pointsAmount;
+    private float $balance;
+    private float $pointsAmount;
 
     /**
      * Create a new message instance.
