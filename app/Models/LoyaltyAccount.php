@@ -23,6 +23,9 @@ use Illuminate\Support\Facades\Mail;
  **/
 class LoyaltyAccount extends Model
 {
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_DISABLED = 0;
+
     protected $table = 'loyalty_account';
 
     protected $fillable = [

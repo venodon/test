@@ -25,12 +25,10 @@ class AccountController extends Controller
     public function activate($type, $id)
     {
         if ($id && in_array($type,['phone', 'card', 'email'])) {
-            if ($account = LoyaltyAccount::where($type, '=', $id)->first()) {
-                if (!$account->active) {
-                    $account->active = true;
-                    $account->save();
-                    $account->notify('Account restored');
-                }
+            if ($account = LoyaltyAccount::where([[$type, '=', $id],['active', '=', LoyaltyAccount::STATUS_DISABLED]])->first()) {
+                $account->active = true;
+                $account->save();
+                $account->notify('Account restored');
             } else {
                 return response()->json(['message' => 'Account is not found'], 400);
             }
@@ -48,12 +46,10 @@ class AccountController extends Controller
     public function deactivate($type, $id)
     {
         if ($id && in_array($type,['phone', 'card', 'email'])) {
-            if ($account = LoyaltyAccount::where($type, '=', $id)->first()) {
-                if ($account->active) {
-                    $account->active = false;
-                    $account->save();
-                    $account->notify('Account banned');
-                }
+            if ($account = LoyaltyAccount::where([[$type, '=', $id],['active', '=', LoyaltyAccount::STATUS_ACTIVE]])->first()) {
+                $account->active = false;
+                $account->save();
+                $account->notify('Account banned');
             } else {
                 return response()->json(['message' => 'Account is not found'], 400);
             }
