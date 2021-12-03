@@ -4,6 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $account_id
+ * @property float $points_amount
+ * @property float $payment_amount
+ * @property string $payment_id
+ * @property int $payment_time
+ * @property string $description
+ * @property int $points_rule
+ * @property int $canceled
+ * @property string $cancellation_reason
+ */
 class LoyaltyPointsTransaction extends Model
 {
     protected $table = 'loyalty_points_transaction';
@@ -18,6 +30,15 @@ class LoyaltyPointsTransaction extends Model
         'payment_time',
     ];
 
+    /**
+     * @param $account_id
+     * @param $points_rule
+     * @param $description
+     * @param $payment_id
+     * @param $payment_amount
+     * @param $payment_time
+     * @return mixed
+     */
     public static function performPaymentLoyaltyPoints($account_id, $points_rule, $description, $payment_id, $payment_amount, $payment_time)
     {
         $points_amount = 0;
@@ -40,6 +61,12 @@ class LoyaltyPointsTransaction extends Model
         ]);
     }
 
+    /**
+     * @param $account_id
+     * @param $points_amount
+     * @param $description
+     * @return mixed
+     */
     public static function withdrawLoyaltyPoints($account_id, $points_amount, $description) {
         return LoyaltyPointsTransaction::create([
             'account_id' => $account_id,
